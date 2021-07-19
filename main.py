@@ -86,9 +86,9 @@ def get_artists_of_country_chart(message):
             )
             return
         answer = (
-                "Here's artists' top chart of *"
-                + countries.get(country_code.lower()).name
-                + "*:\n"
+            "Here's artists' top chart of *"
+            + countries.get(country_code.lower()).name
+            + "*:\n"
         )
         for artist in response["message"]["body"]["artist_list"]:
             name = artist["artist"]["artist_name"]
@@ -108,8 +108,8 @@ def get_artists_of_country_chart(message):
 
 def shorten(name):
     if "-" in name:
-        l = name.split('-')
-        artist, track = l[0], ' '.join(l[1:])
+        l = name.split("-")
+        artist, track = l[0], " ".join(l[1:])
     elif " " in name:
         l = name.split(" ")
         artist, track = l[:-1], l[-1:]
@@ -189,5 +189,5 @@ def greet(message):
 #
 # polling()
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     bot.polling(none_stop=True, timeout=5)
