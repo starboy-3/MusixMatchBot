@@ -90,7 +90,6 @@ def get_artists_of_country_chart(message):
                 + countries.get(country_code.lower()).name
                 + "*:\n"
         )
-        print(response["message"]["body"]["artist_list"])
         for artist in response["message"]["body"]["artist_list"]:
             name = artist["artist"]["artist_name"]
             if len(artist["artist"]["artist_name_translation_list"]) > 0:
