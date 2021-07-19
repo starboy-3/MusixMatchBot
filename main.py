@@ -9,7 +9,7 @@ from lyrics import *
 bot = telebot.TeleBot(TOKEN)
 
 
-@bot.message_handler(commands=["get_tracks_of"])
+@bot.message_handler(commands=["tracks"])
 def tracks_of_author(message):
     author = " ".join(
         [t.capitalize() for t in message.json["text"].split(" ")[1:]]
@@ -32,7 +32,7 @@ def tracks_of_author(message):
     )
 
 
-@bot.message_handler(commands=["get_charts_of"])
+@bot.message_handler(commands=["charts"])
 def get_charts_of_country(message):
     country_code = " ".join(message.json["text"].split(" ")[1:]).strip()
     if not country_code or len(country_code) == 0:
@@ -44,9 +44,15 @@ def get_charts_of_country(message):
     else:
         response, status = get_country_charts(country_code)
     if status == 200:
-        answer = (
-            "Here's top chart of *" + countries.get(country_code.lower()).name + "*:\n"
-        )
+        try:
+            cc = countries.get(country_code.lower()).name
+        except:
+            bot.send_message(
+                message.chat.id,
+                text="Please pass country code in the format of ISO3166 correctly",
+            )
+            return
+        answer = "Here's top chart of *" + cc + "*:\n"
         for track in response["message"]["body"]["track_list"]:
             tr = track["track"]["track_name"]
             artist = track["track"]["artist_name"]
@@ -59,7 +65,7 @@ def get_charts_of_country(message):
     )
 
 
-@bot.message_handler(commands=["get_chart_artists"])
+@bot.message_handler(commands=["chart_artists"])
 def get_artists_of_country_chart(message):
     country_code = " ".join(message.json["text"].split(" ")[1:]).strip()
     if not country_code or len(country_code) == 0:
@@ -71,14 +77,27 @@ def get_artists_of_country_chart(message):
     else:
         response, status = get_chart_artists(country_code)
     if status == 200:
+        try:
+            cc = countries.get(country_code.lower()).name
+        except:
+            bot.send_message(
+                message.chat.id,
+                text="Please pass country code in the format of ISO3166 correctly",
+            )
+            return
         answer = (
-            "Here's artists' top chart of *"
-            + countries.get(country_code.lower()).name
-            + "*:\n"
+                "Here's artists' top chart of *"
+                + countries.get(country_code.lower()).name
+                + "*:\n"
         )
         print(response["message"]["body"]["artist_list"])
         for artist in response["message"]["body"]["artist_list"]:
             name = artist["artist"]["artist_name"]
+            if len(artist["artist"]["artist_name_translation_list"]) > 0:
+                for transl in artist["artist"]["artist_name_translation_list"]:
+                    if transl["artist_name_translation"]["language"] == "EN":
+                        name = transl["artist_name_translation"]["translation"]
+                        break
             answer += f"Artist: *{name}*\n\n"
         bot.send_message(message.chat.id, text=answer, parse_mode="Markdown")
         return
@@ -88,10 +107,24 @@ def get_artists_of_country_chart(message):
     )
 
 
-@bot.message_handler(commands=["get_lyrics"])
+def shorten(name):
+    if "-" in name:
+        l = name.split('-')
+        artist, track = l[0], ' '.join(l[1:])
+    elif " " in name:
+        l = name.split(" ")
+        artist, track = l[:-1], l[-1:]
+    if len(artist) > 15:
+        artist = artist[:15]
+    if len(track) > 15:
+        track = track[:15]
+    return [artist, track]
+
+
+@bot.message_handler(commands=["lyrics"])
 def get_lyrics(message):
     res = [
-        tmp.strip() for tmp in "".join(message.json["text"].split(" ")[1:]).split("-")
+        tmp.strip() for tmp in " ".join(message.json["text"].split(" ")[1:]).split("-")
     ]
     if len(res) == 1 and not len(res[0]):
         bot.send_message(
@@ -101,36 +134,45 @@ def get_lyrics(message):
         return
     elif len(res) == 1:
         track = res[0]
-        artist = ''
+        artist = ""
     else:
         track, artist = res
     songs, status = search(track + " " + artist)
-    if not status:
+    if not status and "Error" in songs:
+        bot.reply_to(message, text=songs["Error"])
+        return
+    elif not status:
         bot.reply_to(
             message,
             text=f"Couldn't connect to MusixMatch. Please try again later. Anyway you can report it to me @starboy369. Thanks!",
         )
         return
-    mkup = types.InlineKeyboardMarkup(row_width=2)
+    keyboard = types.InlineKeyboardMarkup(row_width=2)
     for k in songs:
-        itembtn1 = types.InlineKeyboardButton(k, callback_data=k)
-        mkup.add(itembtn1)
-    text = "Which song are you searching?"
-    bot.send_message(message.chat.id, text, reply_markup=mkup)
+        shortened = shorten(k)
+        button = types.InlineKeyboardButton(k, callback_data=" ".join(shortened))
+        keyboard.add(button)
+    text = "Which song are you searching?\nNot what you are searching for? Please pass track details more correctly (maybe you missed any apostrophe)"
+    bot.send_message(message.chat.id, text, reply_markup=keyboard)
 
 
 @bot.callback_query_handler(func=lambda callback: True)
 def callbacks(callback):
     mkup = types.InlineKeyboardMarkup(row_width=1)
-    itembtn1 = types.InlineKeyboardButton("Back", callback_data="C")
+    button = types.InlineKeyboardButton("Back", callback_data="B")
+    mkup.add(button)
     k = callback.data
     songs, status = search(k)
+    for i in songs:
+        if k in " ".join(shorten(i)):
+            k = i
+            break
     if status:
         text = parse_lyrics(songs[k])
     else:
         text = "Couldn't connect to MusixMatch. Please try again later. Anyway you can report it to me @starboy369. Thanks!"
     bot.edit_message_text(
-        text, callback.message.chat.id, callback.message.message_id, reply_markup=mkup
+        text[:4096], callback.message.chat.id, callback.message.message_id
     )
 
 
@@ -148,4 +190,5 @@ def greet(message):
 #
 # polling()
 
-bot.polling(none_stop=True, timeout=5)
+if __name__ == '__main__':
+    bot.polling(none_stop=True, timeout=5)

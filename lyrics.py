@@ -14,7 +14,10 @@ def search(parameter, timeout=None):
     except:
         return {}, False
     songs = {}
-    for tr in soup("div", "panel")[0].table:
+    soup = soup("div", "panel")
+    if len(soup) < 1:
+        return {"Error": "Please pass track name more correctly."}, False
+    for tr in soup[0].table:
         if tr == "\n":
             continue
         bs = tr.find_all("b")
