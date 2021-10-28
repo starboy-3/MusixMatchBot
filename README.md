@@ -1,5 +1,5 @@
 # MusixMatchBot
-## Telegram-bot fully wriiten in Python
+## Telegram-bot
 
 ### Commands:
 ```
