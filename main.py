@@ -6,7 +6,7 @@ from musixmatch import *
 from iso3166 import countries
 from lyrics import *
 
-bot = telebot.TeleBot(TOKEN)
+bot = telebot.TeleBot(BOT_TOKEN)
 
 
 @bot.message_handler(commands=["tracks"])
