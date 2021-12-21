@@ -27,7 +27,6 @@ Python - BeautifulSoup, requests, pyTelegramBotAPI
 ```bash
 git clone https://github.com/starboy-3/MusixMatch.git
 cd MusixMatch/
-pip install pipenv
-pipenv install -r requirements.txt
-pipenv python main.py
+bash init.sh
+bash start.sh
 ```
