@@ -6,7 +6,8 @@ EXPOSE 5000
 
 COPY . .
 
-RUN init.sh 
+RUN pip install pipenv
+RUN pipenv install -r requirements.txt
 
 ENTRYPOINT ["./start.sh"]
 
