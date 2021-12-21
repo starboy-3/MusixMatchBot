@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-pip install pipenv
+sudo -H pip install -U pipenv
 pipenv install -r requirements.txt
