@@ -3,6 +3,8 @@ version: '3'
 services:
   balaboba:
     image: musixmatchbot/musixmatchbot
-    environment:
-      BOT_TOKEN: "1919983785:AAESmFoHDl8taD7TgIwlvNWzQCuoRMlwSnA"
-      MUSIXMATCH_API_KEY: "fe689d8c63412e0916fc373de96e1b6e"
+    env_file:
+            - ./MusixMatchBot/.env
+              #  environment:
+              #      BOT_TOKEN: "1919983785:AAESmFoHDl8taD7TgIwlvNWzQCuoRMlwSnA"
+              #      MUSIXMATCH_API_KEY: "fe689d8c63412e0916fc373de96e1b6e"
