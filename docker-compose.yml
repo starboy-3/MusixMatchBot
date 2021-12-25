@@ -11,8 +11,6 @@ services:
     restart: always
     env_file:
           - ./.env
-   # environment:
-  #  TELEGRAM_BOT_TOKEN: "123123123:FFFFFFFFFFFFFFFFFF"
 
   watchtower:
     image: containrrr/watchtower
