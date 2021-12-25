@@ -8,7 +8,7 @@ from lyrics import *
 bot = telebot.TeleBot(BOT_TOKEN)
 
 
-@bot.message_handler(commands=["tracks"])
+@bot.message_handler(commands=["tracks"]) # "/tracks queens"
 def tracks_of_author(message):
     author = " ".join(
         [t.capitalize() for t in message.json["text"].split(" ")[1:]]

@@ -6,7 +6,7 @@ EXPOSE 5000
 
 COPY . .
 
-RUN pip install pipenv
+RUN sudo -H pip install --user pipenv
 RUN pipenv install -r requirements.txt
 
 ENTRYPOINT ["bash", "./start.sh"]

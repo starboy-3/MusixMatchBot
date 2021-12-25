@@ -26,7 +26,6 @@ def search(parameter, timeout=None):
             songs[artist + " - " + track] = tr.td.a["href"]
     return songs, True
 
-
 def parse_lyrics(url, timeout=None):
     response = requests.get(url, timeout)
     soup = BeautifulSoup(response.content, "html.parser")
