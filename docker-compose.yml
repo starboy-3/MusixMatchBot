@@ -1,10 +1,22 @@
-version: '3'
-
-services:
-  balaboba:
-    image: musixmatchbot/musixmatchbot
-    env_file:
-            - ./MusixMatchBot/.env
               #  environment:
               #      BOT_TOKEN: "1919983785:AAESmFoHDl8taD7TgIwlvNWzQCuoRMlwSnA"
               #      MUSIXMATCH_API_KEY: "fe689d8c63412e0916fc373de96e1b6e"
+version: '3'
+
+services:
+  musixmatchbot:
+    image: musixmatchbot/musixmatchbot
+    labels:
+      - "com.centurylinklabs.watchtower.scope=myscope"
+    env_file:
+          - ./.env
+   # environment:
+  #  TELEGRAM_BOT_TOKEN: "123123123:FFFFFFFFFFFFFFFFFF"
+
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 10 --scope myscope
+    labels:
+      - "com.centurylinklabs.watchtower.scope=myscope"
