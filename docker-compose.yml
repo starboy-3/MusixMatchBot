@@ -5,7 +5,7 @@ version: '3'
 
 services:
   musixmatchbot:
-    image: musixmatchbot/musixmatchbot
+    image: starboy369/musixmatchbot
     labels:
       - "com.centurylinklabs.watchtower.scope=myscope"
     restart: always
