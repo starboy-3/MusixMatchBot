@@ -1,6 +1,5 @@
 import telebot
-from telebot import util, types
-import time
+from telebot import types
 from config import *
 from musixmatch import *
 from iso3166 import countries
@@ -28,7 +27,9 @@ def tracks_of_author(message):
         bot.send_message(message.chat.id, text=ans, parse_mode="Markdown")
         return
     bot.send_message(
-        f"Couldn't connect to MusixMatch. Please try again. Response Code: {status} Anyway you can report it to me @starboy369. Thanks!"
+        f"Couldn't connect to MusixMatch. Please try again. "
+        f"Response Code: {status} Anyway you can report it to me @starboy369. "
+        f"Thanks!"
     )
 
 
@@ -49,7 +50,8 @@ def get_charts_of_country(message):
         except:
             bot.send_message(
                 message.chat.id,
-                text="Please pass country code in the format of ISO3166 correctly",
+                text="Please pass country code in the format of "
+                     "ISO3166 correctly",
             )
             return
         answer = "Here's top chart of *" + cc + "*:\n"
@@ -57,11 +59,14 @@ def get_charts_of_country(message):
             tr = track["track"]["track_name"]
             artist = track["track"]["artist_name"]
             url = track["track"]["track_share_url"]
-            answer += f"Track: [{tr}]({url}) (lyrics)\nArtist: *" + artist + "*\n\n"
+            answer += f"Track: [{tr}]({url}) (lyrics)\nArtist: *" + artist \
+                      + "*\n\n"
         bot.send_message(message.chat.id, text=answer, parse_mode="Markdown")
         return
     bot.send_message(
-        f"Couldn't connect to MusixMatch. Please try again. Response Code: {status} Anyway you can report it to me @starboy369. Thanks!"
+        f"Couldn't connect to MusixMatch. Please try again. \
+        Response Code: {status} Anyway you can "
+        f"report it to me @starboy369. Thanks!"
     )
 
 
@@ -74,17 +79,10 @@ def get_artists_of_country_chart(message):
             text="Please pass country code in the format of ISO3166 correctly",
         )
         return
-    else:
-        response, status = get_chart_artists(country_code)
+
+    response, status = get_chart_artists(country_code)
+
     if status == 200:
-        try:
-            cc = countries.get(country_code.lower()).name
-        except:
-            bot.send_message(
-                message.chat.id,
-                text="Please pass country code in the format of ISO3166 correctly",
-            )
-            return
         answer = (
             "Here's artists' top chart of *"
             + countries.get(country_code.lower()).name
@@ -102,7 +100,9 @@ def get_artists_of_country_chart(message):
         return
     bot.send_message(
         message.chat.id,
-        text=f"Couldn't connect to MusixMatch. Please try again. Response Code: {status} Anyway you can report it to me @starboy369. Thanks!",
+        text=f"Couldn't connect to MusixMatch. Please try again. "
+        f"Response Code: {status} Anyway you can report it to me @starboy369. "
+             f"Thanks!",
     )
 
 
@@ -123,12 +123,15 @@ def shorten(name):
 @bot.message_handler(commands=["lyrics"])
 def get_lyrics(message):
     res = [
-        tmp.strip() for tmp in " ".join(message.json["text"].split(" ")[1:]).split("-")
+        tmp.strip() for tmp in " ".join(
+            message.json["text"].split(" ")[1:]
+        ).split("-")
     ]
     if len(res) == 1 and not len(res[0]):
         bot.send_message(
             message.chat.id,
-            text=f"Please add searching parameters: artist name or/and track name.",
+            text="Please add searching parameters: artist name "
+                 "or/and track name.",
         )
         return
     elif len(res) == 1:
@@ -143,15 +146,20 @@ def get_lyrics(message):
     elif not status:
         bot.reply_to(
             message,
-            text=f"Couldn't connect to MusixMatch. Please try again later. Anyway you can report it to me @starboy369. Thanks!",
+            text=f"Couldn't connect to MusixMatch. Please try again later. "
+                 f"Anyway you can report it to me @starboy369. Thanks!",
         )
         return
     keyboard = types.InlineKeyboardMarkup(row_width=2)
     for k in songs:
         shortened = shorten(k)
-        button = types.InlineKeyboardButton(k, callback_data=" ".join(shortened))
+        button = types.InlineKeyboardButton(k,
+                                            callback_data=" ".join(shortened)
+                                            )
         keyboard.add(button)
-    text = "Which song are you searching?\nNot what you are searching for? Please pass track details more correctly (maybe you missed any apostrophe)"
+    text = "Which song are you searching?\nNot what you are searching for? " \
+           "Please pass track details more correctly " \
+           "(maybe you missed any apostrophe)"
     bot.send_message(message.chat.id, text, reply_markup=keyboard)
 
 
@@ -169,7 +177,9 @@ def callbacks(callback):
     if status:
         text = parse_lyrics(songs[k])
     else:
-        text = "Couldn't connect to MusixMatch. Please try again later. Anyway you can report it to me @starboy369. Thanks!"
+        text = "Couldn't connect to MusixMatch. Please try again later. " \
+               "Anyway you can report it to me @starboy369. " \
+               "Thanks! "
     bot.edit_message_text(
         text[:4096], callback.message.chat.id, callback.message.message_id
     )
