@@ -1,9 +1,6 @@
 # our base image
 FROM python:3.9
 
-# specify the port number the container should expose
-EXPOSE 5000
-
 COPY . .
 
 RUN sudo -H pip install --user pipenv
