@@ -8,6 +8,7 @@ services:
     image: musixmatchbot/musixmatchbot
     labels:
       - "com.centurylinklabs.watchtower.scope=myscope"
+    restart: always
     env_file:
           - ./.env
    # environment:
@@ -18,5 +19,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --interval 10 --scope myscope
+    restart: always
     labels:
       - "com.centurylinklabs.watchtower.scope=myscope"
