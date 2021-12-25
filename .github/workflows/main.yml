@@ -24,12 +24,12 @@ jobs:
       run: |
         pylint . --rcfile=.pylintrc
     - name: update Docker image
-        if: ${{ github.event_name == 'push' || github.event.pull_request.merge }}
-        env:
-          DOCKER_USERNAME: 'musixmatchbot'
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: |
-          sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      if: ${{ github.event_name == 'push' || github.event.pull_request.merge }}
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: |
+        sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 # sudo docker-compose up -d
-          sudo docker build --tag musixmatchbot/musixmatchbot .
-          sudo docker push musixmatchbot/musixmatchbot
+        sudo docker build --tag musixmatchbot/musixmatchbot .
+        sudo docker push musixmatchbot/musixmatchbot
