@@ -20,9 +20,9 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install flake8 isort yapf
+        pip install pylint isort yapf
     - name: Lint
       run: |
-        flake8 . --jobs=4 --append-config=.flake8
+        pylint . --rcfile=.pylintrc
         isort --check-only --diff basicsr/ options/ scripts/ tests/ inference/ setup.py
         yapf -r -d basicsr/ options/ scripts/ tests/ inference/ setup.py
