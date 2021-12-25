@@ -5,7 +5,7 @@ RUN apt-get update
 
 RUN apt-get install -y  \
             python3.9     \
-            pip \
+            pip
 
 RUN pip install -r requirements.txt
 
