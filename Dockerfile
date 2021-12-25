@@ -3,7 +3,6 @@ FROM python:3.9
 
 COPY . .
 
-RUN pip install --user pipenv
 RUN pip install -r requirements.txt
 
 ENTRYPOINT ["bash", "./start.sh"]
