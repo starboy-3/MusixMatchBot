@@ -9,4 +9,4 @@ ENTRYPOINT ["bash", "./start.sh"]
 
 
 # run the application
-# CMD ["pipenv", "python", "main.py"]
+# CMD ["pipenv", "run", "python", "main.py"]
