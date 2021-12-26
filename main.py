@@ -191,7 +191,7 @@ def greet(message):
 
 if __name__ == "__main__":
     FORMAT_ISO3166_ERROR = "Please pass country code in the format of ISO3166. For example: /charts ru"
-    MUSIXMATCH_ERROR = "Couldn't connect to MusixMatch. Please try again. " \
-                       "Anyway you can report it to me @starboy369. " \ 
-                       "Thanks! "
+    MUSIXMATCH_ERROR = """Couldn't connect to MusixMatch. Please try again.
+                       Anyway you can report it to me @starboy369. 
+                       Thanks! """
     bot.polling(none_stop=True, timeout=5)
