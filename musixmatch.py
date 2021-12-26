@@ -5,7 +5,7 @@ from config import MUSIXMATCH_API_KEY
 URL = "https://api.musixmatch.com/ws/1.1/"
 
 
-def get_tracks_of_author(author, page_size=3):
+def get_tracks_of_author(author, page_size=5):
     parameters = (
         "track.search?q_artist="
         + author
@@ -23,7 +23,7 @@ def get_tracks_of_author(author, page_size=3):
     return f"Error! Something went wrong.", response.status_code
 
 
-def get_country_charts(country_code="XW", page_size=3):
+def get_country_charts(country_code="XW", page_size=5):
     parameters = (
         "chart.tracks.get?country="
         + country_code
@@ -40,7 +40,7 @@ def get_country_charts(country_code="XW", page_size=3):
     return f"Error! Something went wrong.", response.status_code
 
 
-def get_chart_artists(country_code="US", page=1, artists_num=3):
+def get_chart_artists(country_code="US", page=1, artists_num=5):
     # This api provides you the list of the top artists of a given country.
     parameters = (
         "chart.artists.get?page="
