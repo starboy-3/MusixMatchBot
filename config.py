@@ -1,4 +1,4 @@
-# import os
+import os
 
 #with open("../.env", "r") as env_variables:
 #    for line in env_variables.readlines():
