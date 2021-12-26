@@ -21,12 +21,3 @@ For example: /lyrics bellyache billie
 
 Stack: 
 Python - BeautifulSoup, requests, pyTelegramBotAPI
-
-
-## Deploy
-```bash
-git clone https://github.com/starboy-3/MusixMatch.git
-cd MusixMatch/
-bash init.sh
-bash start.sh
-```
