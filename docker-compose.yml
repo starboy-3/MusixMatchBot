@@ -10,7 +10,7 @@ services:
       - "com.centurylinklabs.watchtower.scope=myscope"
     restart: always
     env_file:
-          - ./.env
+      - ./.env
 
   watchtower:
     image: containrrr/watchtower

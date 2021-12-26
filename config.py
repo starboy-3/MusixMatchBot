@@ -1,9 +1,9 @@
-import os
+# import os
 
-with open("../.env", "r") as env_variables:
-    for line in env_variables.readlines():
-        k, v = line.split("=")
-        os.environ[k] = v.strip()
+#with open("../.env", "r") as env_variables:
+#    for line in env_variables.readlines():
+#       k, v = line.split("=")
+#        os.environ[k] = v.strip()
 
 # dotenv.load_dotenv(".env")
 
