@@ -15,7 +15,7 @@ For example: /chart_artists ru
 For example: /tracks the weeknd
 ```
 ```
-/lyrics <details> - returns lyrics of the track by its name and/or artist. 
+/lyrics <details> - returns parsed lyrics of the track by its name and/or artist from azlyrics.com
 For example: /lyrics bellyache billie
 ```
 
