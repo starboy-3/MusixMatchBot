@@ -22,6 +22,8 @@ For example: /lyrics bellyache billie
 Stack: 
 Python - BeautifulSoup, requests, pyTelegramBotAPI
 
+### Demonstration:
+
 <img width="599" alt="image" src="https://user-images.githubusercontent.com/72921287/149679402-2ed18553-9c74-4228-92d1-78540c4389e2.png">
 <img width="609" alt="image" src="https://user-images.githubusercontent.com/72921287/149679414-6a12f44e-d44d-4a8f-a953-91d15aea2a5c.png">
 <img width="598" alt="image" src="https://user-images.githubusercontent.com/72921287/149679423-d07e214b-535f-451f-82e8-957f42575066.png">
